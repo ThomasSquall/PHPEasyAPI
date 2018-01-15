@@ -17,5 +17,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPEasyAPI\\": "src"
+        }
     }
 }
