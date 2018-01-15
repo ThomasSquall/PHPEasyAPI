@@ -1,0 +1,21 @@
+{
+    "name": "thomas-squall/php-easy-api",
+    "description": "PHP API System for client and server development.",
+    "type": "library",
+    "version": "0.1.1",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Cocchiara",
+            "email": "thomas.cocchiara@gmail.com"
+        }
+    ],
+    "require": {
+        "thomas-squall/php-magic-annotations": "^0.5.1",
+        "curl/curl": "^1.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.*"
+    }
+}
