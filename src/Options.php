@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPEasyAPI\Enrichment;
+namespace PHPEasyAPI;
 
 /**
  * Class Options.
@@ -10,4 +10,5 @@ class Options
 {
     public $username = null;
     public $password = null;
+    public $headers = [];
 }

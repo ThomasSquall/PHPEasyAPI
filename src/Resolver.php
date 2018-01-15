@@ -2,7 +2,6 @@
 
 namespace PHPEasyAPI;
 
-use PHPEasyAPI\Enrichment\Options;
 use PHPAnnotations\Reflection\Reflector;
 
 /**
@@ -28,16 +27,41 @@ class Resolver
             {
                 $options = new Options();
                 $user = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\User');
+                $json = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\JSON');
+                $header = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\Header');
 
-                if (!is_null($user))
-                {
-                    $options->username = $user->username;
-                    $options->password = $user->password;
-                }
+                $this->setUser($user, $options);
+                $this->setJSON($json, $options);
+                $this->setCustomHeader($header, $options);
 
                 /** @var ClientAnnotation $client */
                 $client->makeRequest($property, $endpoint, $options);
             }
+        }
+    }
+
+    private function setUser($user, &$options)
+    {
+        if (!is_null($user))
+        {
+            $options->username = $user->username;
+            $options->password = $user->password;
+        }
+    }
+
+    private function setJSON($json, &$options)
+    {
+        if (!is_null($json))
+        {
+            $options->headers['Content-type'] = 'application/json';
+        }
+    }
+
+    private function setCustomHeader($header, &$options)
+    {
+        if (!is_null($header))
+        {
+            $options->headers[$header->header] = $header->value;
         }
     }
 }

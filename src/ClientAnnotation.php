@@ -2,7 +2,6 @@
 
 namespace PHPEasyAPI;
 
-use PHPEasyAPI\Enrichment\Options;
 use PHPEasyAPI\Enrichment\EndpointAnnotation;
 use PHPAnnotations\Annotations\Annotation;
 
@@ -39,10 +38,25 @@ class ClientAnnotation extends Annotation
             $curl->setBasicAuthentication($options->username, $options->password);
         }
 
+        foreach ($options->headers as $key => $value)
+        {
+            $curl->setHeader($key, $value);
+        }
+
         if (method_exists($curl, $method))
         {
             $curl->$method($url, (array)$options);
             $result = $curl->response;
+
+            foreach ($curl->response_headers as $header)
+            {
+                if (strpos($header, 'Content-Type') !== false &&
+                    strpos($header, 'application/json') !== false)
+                {
+                    $result = json_decode($result, true);
+                    break;
+                }
+            }
         }
 
         return $result;
