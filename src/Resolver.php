@@ -152,9 +152,11 @@ class Resolver
             if (is_null($endpoint)) continue;
             if (strtolower($endpoint->method) !== strtolower($_SERVER['REQUEST_METHOD'])) continue;
 
-            if ($endpoint === "") $endpoint = "index";
+            $url = $endpoint->url;
 
-            $url = explode('/', $endpoint->url);
+            if ($url === "") $url = "index";
+
+            $url = explode('/', $url);
 
             if (count($url) != count($request)) continue;
 
