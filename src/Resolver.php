@@ -140,7 +140,12 @@ class Resolver
         $request = array_values($request);
         $requestCount = count($request);
 
-        if ($requestCount == 0) $request = ["index"];
+        if ($requestCount == 0)
+        {
+            $request = ["index"];
+            $requestCount = 1;
+        }
+
         if ($request[$requestCount - 1] === "") $request[$requestCount - 1] = "index";
 
         $reflector = $this->listeners[$endpoint];
