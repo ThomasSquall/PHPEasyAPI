@@ -187,6 +187,8 @@ class Resolver
 
                 $result = $name;
             }
+
+            if ($result !== "") break;
         }
 
         return [$result, $args];
