@@ -94,11 +94,15 @@ class Resolver
 
     /**
      * Resolve an url and returns the API call result.
-     * @param string $url
+     *
+     * @param string $url                   The url to resolve.
+     * @param callback $controlCallback     If not null will be called before resolving the url.
+     *
      * @throws \Exception
+     *
      * @return mixed
      */
-    public function resolve($url)
+    public function resolve($url, $controlCallback = null)
     {
         if (substr($url, 0, 1) === '/') $url = substr($url, 1, strlen($url) - 1);
         if ($this->baseUrl === '') throw new \Exception('Please set a base url before handling API requests');
@@ -108,6 +112,10 @@ class Resolver
 
         $request = explode('/', $endpoint);
         $endpoint = $request[0];
+
+        if (!is_null($controlCallback) && is_callable($controlCallback)) {
+            $controlCallback($endpoint);
+        }
 
         if (!isset($this->listeners[$endpoint])) $this->notFoundResponse();
 
