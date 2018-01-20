@@ -138,6 +138,9 @@ class Resolver
         $args = [];
 
         $request = array_values($request);
+
+        if (count($request) == 0) $request = ["index"];
+
         $reflector = $this->listeners[$endpoint];
         $methods = $reflector->getMethods();
 
@@ -148,6 +151,8 @@ class Resolver
 
             if (is_null($endpoint)) continue;
             if (strtolower($endpoint->method) !== strtolower($_SERVER['REQUEST_METHOD'])) continue;
+
+            if ($endpoint === "") $endpoint = "index";
 
             $url = explode('/', $endpoint->url);
 
