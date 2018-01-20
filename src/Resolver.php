@@ -147,6 +147,8 @@ class Resolver
         }
 
         if ($request[$requestCount - 1] === "") $request[$requestCount - 1] = "index";
+        if (strpos($request[$requestCount - 1], '?') !== false)
+            $request[$requestCount - 1] = explode('?', $request[$requestCount - 1])[0];
 
         $reflector = $this->listeners[$endpoint];
         $methods = $reflector->getMethods();
@@ -161,6 +163,7 @@ class Resolver
 
             $url = $endpoint->url;
 
+            if (substr($url, 0, 1) === '/') $url = substr($url, 1, strlen($url) - 1);
             if ($url === "") $url = "index";
 
             $url = explode('/', $url);
