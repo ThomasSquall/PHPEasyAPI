@@ -128,7 +128,7 @@ class Resolver
             $result = json_encode($result);
         }
 
-        header("HTTP/1.1 404 OK");
+        header("HTTP/1.1 200 OK");
         exit($result);
     }
 
