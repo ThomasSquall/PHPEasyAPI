@@ -1,6 +1,6 @@
 # API System for PHP [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Easy%20to%20use%20PHP%20API%20libray!%20Check%20it%20out!%20&url=https://github.com/ThomasSquall/PHPEasyAPI&hashtags=php,php7,api,apiserver,apiclient,developers)
 
-Easy to use library which take advantage of the [PHP7 annotations library](https://github.com/ThomasSquall/PHPMagicAnnotations).
+Easy to use library which takes advantage of the [PHP7 annotations library](https://github.com/ThomasSquall/PHPMagicAnnotations).
 
 ### Installation
 
@@ -81,11 +81,11 @@ class Listener
      * @param int $userId
      * @param int $listId
      * @return string
-     * [\PHPEasyAPI\Enrichment\Endpoint(method = "GET", url = ":userID/getList/:listId")]
+     * [\PHPEasyAPI\Enrichment\Endpoint(method = "GET", url = ":userId/getList/:listId")]
      */
-    public function getList($userId, $listId)
+    public function getList($request, $userId, $listId)
     {
-        return "List $listId of user $userId";
+        $request->send200("List $listId of user $userId");
     }
 }
 ```

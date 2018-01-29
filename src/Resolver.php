@@ -107,37 +107,35 @@ class Resolver
         if (substr($url, 0, 1) === '/') $url = substr($url, 1, strlen($url) - 1);
         if ($this->baseUrl === '') throw new \Exception('Please set a base url before handling API requests');
 
+        $requestHandler = new Request($url);
+
         if (strpos($url, $this->baseUrl) !== false) $endpoint = explode($this->baseUrl, $url)[1];
         else $endpoint = $url;
 
         $request = explode('/', $endpoint);
         $endpoint = $request[0];
 
-        if (!is_null($controlCallback) && is_callable($controlCallback)) {
-            $controlCallback($endpoint);
-        }
+        if (!is_null($controlCallback) && is_callable($controlCallback)) $controlCallback($endpoint);
 
         if (!isset($this->listeners[$endpoint])) $this->notFoundResponse();
 
         unset($request[0]);
         list($method, $args) = $this->findHandlerMethod($request, $endpoint);
 
+        array_unshift($args, $requestHandler);
+
         if ($method === '') $this->notFoundResponse();
 
         $methodAnnotation = $this->listeners[$endpoint]->getMethod($method);
 
-        $server = $this->listeners[$endpoint]->getClass()->getAnnotation('\PHPEasyAPI\Server');
-        $method = new \ReflectionMethod(get_class($server->obj), $method);
-        $result = $method->invokeArgs($server->obj, $args);
-
         if ($methodAnnotation->hasAnnotation('\PHPEasyAPI\Enrichment\JSON'))
         {
             header('Content-Type: application/json');
-            $result = json_encode($result);
         }
 
-        header("HTTP/1.1 200 OK");
-        exit($result);
+        $server = $this->listeners[$endpoint]->getClass()->getAnnotation('\PHPEasyAPI\Server');
+        $method = new \ReflectionMethod(get_class($server->obj), $method);
+        $method->invokeArgs($server->obj, $args);
     }
 
     private function findHandlerMethod($request, $endpoint)

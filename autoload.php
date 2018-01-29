@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . "/src/ClientAnnotation.php";
 require_once dirname(__FILE__) . "/src/Options.php";
+require_once dirname(__FILE__) . "/src/Request.php";
 require_once dirname(__FILE__) . "/src/Resolver.php";
 require_once dirname(__FILE__) . "/src/ServerAnnotation.php";
 require_once dirname(__FILE__) . "/src/Enrichment/EndpointAnnotation.php";
