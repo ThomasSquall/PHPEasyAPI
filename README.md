@@ -73,7 +73,7 @@ Let's assume we've got the following class:
 
 /**
  * Class Listener.
- * [\PHPEasyAPI\Server]
+ * [\PHPEasyAPI\Server("user")] // 'user' is the endpoint
  */
 class Listener
 {
@@ -95,7 +95,7 @@ To do that we need to bind the listener to an endpoint in that way:
 
 ``` php
 $resolver->setBaseUrl('http://localhost/MyTest'); // Assuming this is your local test url.
-$resolver->bindListener('user', new Listener()); // 'user' is the endpoint.
+$resolver->bindListener(new Listener()); // 'user' is the endpoint.
 ```
 
 NB: The base url is needed to make the resolver understand which part of the request url do not compute.
