@@ -10,5 +10,10 @@ use PHPAnnotations\Annotations\Annotation;
  */
 class ServerAnnotation extends Annotation
 {
+    protected $endpoint;
 
+    public function __construct($endpoint = "")
+    {
+        $this->endpoint = $endpoint;
+    }
 }

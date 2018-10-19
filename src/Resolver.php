@@ -74,20 +74,20 @@ class Resolver
 
     /**
      * Binds a server listener to an endpoint.
-     * @param string $endpoint
      * @param object $apiServer
      * @throws \Exception
      */
-    public function bindListener($endpoint, $apiServer)
+    public function bindListener($apiServer)
     {
-        if (substr($endpoint, 0, 1) === '/') $endpoint = substr($endpoint, 1, strlen($endpoint) - 1);
-        if (strpos($endpoint, '/') !== false) throw new \Exception("String $endpoint is not accepted while binding listener!");
-
         $reflector = new Reflector($apiServer);
-
         $server = $reflector->getClass()->getAnnotation('\PHPEasyAPI\Server');
 
+        $endpoint = $server->endpoint;
+
         if (is_null($server)) throw new \Exception('No \PHPEasyAPI\Server annotation found in class ' . get_class($apiServer));
+
+        if (substr($endpoint, 0, 1) === '/') $endpoint = substr($endpoint, 1, strlen($endpoint) - 1);
+        if (strpos($endpoint, '/') !== false) throw new \Exception("String $endpoint is not accepted while binding listener!");
 
         $this->listeners[$endpoint] = $reflector;
     }
