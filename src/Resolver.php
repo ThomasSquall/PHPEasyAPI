@@ -115,7 +115,7 @@ class Resolver
         $request = explode('/', $endpoint);
         $endpoint = $request[0];
 
-        if (!is_null($controlCallback) && is_callable($controlCallback)) $controlCallback($endpoint);
+        if (!is_null($controlCallback) && is_callable($controlCallback)) $controlCallback($endpoint, $request);
 
         if (!isset($this->listeners[$endpoint])) $this->notFoundResponse();
 
