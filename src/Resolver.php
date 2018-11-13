@@ -113,6 +113,13 @@ class Resolver
         else $endpoint = $url;
 
         $request = explode('/', $endpoint);
+
+        if (strpos($request[0], '?') !== false)
+        {
+            $request[1] = $request[0];
+            $request[0] = "";
+        }
+
         $endpoint = $request[0];
 
         if (!is_null($controlCallback) && is_callable($controlCallback)) $controlCallback($endpoint, $request);
@@ -146,7 +153,7 @@ class Resolver
         $request = array_values($request);
         $requestCount = count($request);
 
-        if ($requestCount == 0)
+        if ($requestCount == 0 || strpos($request[0], '?') !== false)
         {
             $request = ["index"];
             $requestCount = 1;
