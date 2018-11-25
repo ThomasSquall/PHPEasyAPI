@@ -40,9 +40,10 @@ class Resolver
      * Makes a Request to an external API.
      * @param object $apiClient
      * @param string $endpoint
+     * @param array $data
      * @throws \Exception
      */
-    public function makeRequest($apiClient, $endpoint)
+    public function makeRequest($apiClient, $endpoint, $data = [])
     {
         $reflector = new Reflector($apiClient);
 
@@ -58,6 +59,7 @@ class Resolver
         if (!is_null($endpoint))
         {
             $options = new Options();
+            $options->data = $data;
             $user = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\User');
             $json = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\JSON');
             $header = $reflectedProp->getAnnotation('\PHPEasyAPI\Enrichment\Header');
@@ -69,7 +71,6 @@ class Resolver
             /** @var ClientAnnotation $client */
             $client->makeRequest($property, $endpoint, $options);
         }
-
     }
 
     /**
