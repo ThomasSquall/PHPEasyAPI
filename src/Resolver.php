@@ -116,8 +116,8 @@ class Resolver
 
         if (strpos($request[0], '?') !== false)
         {
-            $request[1] = $request[0];
-            $request[0] = "";
+            $request = explode('?', $request[0]);
+            $request[1] = '?' . $request[1];
         }
 
         $endpoint = $request[0];
