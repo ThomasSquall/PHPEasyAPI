@@ -154,7 +154,8 @@ class Resolver
         $request = array_values($request);
         $requestCount = count($request);
 
-        if ($requestCount == 0 || strpos($request[0], '?') !== false)
+        if ($requestCount == 0 ||
+            (strpos($request[0], '?') !== false && substr($request[0], 0, 1) === '?'))
         {
             $request = ["index"];
             $requestCount = 1;
