@@ -109,8 +109,6 @@ class Resolver
         if (substr($url, 0, 1) === '/') $url = substr($url, 1, strlen($url) - 1);
         if ($this->baseUrl === '') throw new \Exception('Please set a base url before handling API requests');
 
-        $requestHandler = new Request($url);
-
         if (strpos($url, $this->baseUrl) !== false) $endpoint = explode($this->baseUrl, $url)[1];
         else $endpoint = $url;
 
@@ -131,8 +129,6 @@ class Resolver
         unset($request[0]);
         list($method, $args) = $this->findHandlerMethod($request, $endpoint);
 
-        array_unshift($args, $requestHandler);
-
         if ($method === '') $this->notFoundResponse();
 
         $methodAnnotation = $this->listeners[$endpoint]->getMethod($method);
@@ -144,7 +140,7 @@ class Resolver
 
         $server = $this->listeners[$endpoint]->getClass()->getAnnotation('\PHPEasyAPI\Server');
         $method = new \ReflectionMethod(get_class($server->obj), $method);
-        $method->invokeArgs($server->obj, $args);
+        $method->invokeArgs($server->obj, [new Request($url, $args)]);
     }
 
     private function findHandlerMethod($request, $endpoint)

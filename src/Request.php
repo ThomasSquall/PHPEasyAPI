@@ -6,8 +6,13 @@ namespace PHPEasyAPI;
  * Class Request.
  * @package PHPEasyAPI
  */
-class Request
+class Request implements \IteratorAggregate, \ArrayAccess, \Countable
 {
+    /**
+     * @var array $args
+     */
+    private $args = [];
+
     /**
      * @var string
      */
@@ -16,8 +21,13 @@ class Request
     /**
      * Request constructor.
      * @param string $url
+     * @param array $args
      */
-    public function __construct($url) { $this->url = $url; }
+    public function __construct($url, $args = [])
+    {
+        $this->url = $url;
+        $this->args = $args;
+    }
 
     /**
      * Sends a response to the client.
@@ -78,7 +88,8 @@ class Request
                 $headerParts = explode(':', $header);
                 $headerValue = trim($headerParts[1]);
 
-                if ($headerValue === "application/json") $result = json_encode($result);
+                if ($headerValue === "application/json" && (is_array($result) || is_object($result)))
+                    $result = json_encode($result);
             }
         }
 
@@ -93,17 +104,93 @@ class Request
 
     /**
      * Sends the 404 response to the client.
+     * @param string $result
      */
-    public function send404() { $this->send(404); }
+    public function send404($result = '') { $this->send(404, $result); }
 
     /**
      * Sends the 500 response to the client.
+     * @param string $result
      */
-    public function send500() { $this->send(500); }
+    public function send500($result = '') { $this->send(500, $result); }
 
     /**
      * Returns the requested url.
      * @return string
      */
     public function getUrl() { return $this->url; }
+
+    /**
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return \Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
+     */
+    public function getIterator() { return new \ArrayIterator($this->args); }
+
+    /**
+     * Whether a offset exists
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @param mixed $offset <p>
+     * An offset to check for.
+     * </p>
+     * @return boolean true on success or false on failure.
+     * </p>
+     * <p>
+     * The return value will be casted to boolean if non-boolean was returned.
+     * @since 5.0.0
+     */
+    public function offsetExists($offset) { return isset($this->args[$offset]); }
+
+    /**
+     * Offset to retrieve
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * @param mixed $offset <p>
+     * The offset to retrieve.
+     * </p>
+     * @return mixed Can return all value types.
+     * @since 5.0.0
+     */
+    public function offsetGet($offset) { return isset($this->args[$offset]) ? $this->args[$offset] : null; }
+
+    /**
+     * Offset to set
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * @param mixed $offset <p>
+     * The offset to assign the value to.
+     * </p>
+     * @param mixed $value <p>
+     * The value to set.
+     * </p>
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) $this->args[] = $value;
+        else $this->args[$offset] = $value;
+    }
+
+    /**
+     * Offset to unset
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @param mixed $offset <p>
+     * The offset to unset.
+     * </p>
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetUnset($offset) { unset($this->args[$offset]); }
+
+    /**
+     * Count elements of an object
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * </p>
+     * <p>
+     * The return value is cast to an integer.
+     * @since 5.1.0
+     */
+    public function count() { return count($this->args); }
 }

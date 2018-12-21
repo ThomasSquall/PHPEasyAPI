@@ -9,6 +9,12 @@ Using composer is quite simple, just run the following command:
 $ composer require thomas-squall/php-easy-api
 ```
 
+### Before starting
+
+Please remember that in order to work you should make sure that every endpoint you call the resolver snippet should be called too.
+I've attached an htaccess-example that could help.
+If you got any doubt please open an issue [here](https://github.com/ThomasSquall/PHPEasyAPI/issues).
+
 ### Usage Example
 
 #### Client
@@ -78,13 +84,14 @@ Let's assume we've got the following class:
 class Listener
 {
     /**
-     * @param int $userId
-     * @param int $listId
+     * @param \PHPEasyAPI\Request $request
      * @return string
      * [\PHPEasyAPI\Enrichment\Endpoint(method = "GET", url = ":userId/getList/:listId")]
      */
-    public function getList($request, $userId, $listId)
+    public function getList($request)
     {
+        $userId = $request["userId"];
+        $listId = $request["listId"];
         $request->send200("List $listId of user $userId");
     }
 }
