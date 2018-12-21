@@ -104,7 +104,7 @@ Not setting it will throw an Exception as it is crucial for the system to work.
 Now what remains to do is to resolve incoming requests:
 
 ``` php
-$resolver->resolve('http://localhost/MyTest/user/10/getList/15'); // Replace this with the real request url.
+$resolver->resolve(); // Example call: GET http://localhost/MyTest/user/10/getList/15
 ```
 
 Let's analyze:
