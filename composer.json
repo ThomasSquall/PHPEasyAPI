@@ -3,7 +3,7 @@
     "description": "PHP API System for client and server development.",
     "type": "library",
     "version": "0.5.2",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
