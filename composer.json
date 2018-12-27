@@ -2,7 +2,7 @@
     "name": "thomas-squall/php-easy-api",
     "description": "PHP API System for client and server development.",
     "type": "library",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
