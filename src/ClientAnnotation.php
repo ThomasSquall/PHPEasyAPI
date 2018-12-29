@@ -45,7 +45,14 @@ class ClientAnnotation extends Annotation
 
         if (method_exists($curl, $method))
         {
-            $curl->$method($url, (array)$options->data);
+            if ($options->json && (is_array($options->data) || is_object($options->data)))
+            {
+                $options->data = (array)$options->data;
+                $options->data = json_encode($options->data);
+            }
+            else $options->data = (array)$options->data;
+
+            $curl->$method($url, $options->data);
             $result = $curl->response;
 
             foreach ($curl->response_headers as $header)

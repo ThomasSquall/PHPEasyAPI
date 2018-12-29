@@ -224,11 +224,12 @@ class Resolver
         }
     }
 
-    private function setJSON($json, &$options)
+    private function setJSON($json, Options &$options)
     {
         if (!is_null($json))
         {
             $options->headers['Content-type'] = 'application/json';
+            $options->json = true;
         }
     }
 
