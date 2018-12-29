@@ -3,7 +3,7 @@
     "description": "PHP API System for client and server development.",
     "type": "library",
     "version": "0.5.6",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "thomas-squall/php-magic-annotations": "^0.8.1",
-        "curl/curl": "^1.8"
+        "thomas-squall/php-magic-annotations": "^0.8.2",
+        "curl/curl": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*"
