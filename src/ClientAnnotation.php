@@ -58,7 +58,8 @@ class ClientAnnotation extends Annotation
             foreach ($curl->response_headers as $header)
             {
                 if (strpos($header, 'Content-Type') !== false &&
-                    strpos($header, 'application/json') !== false)
+                    (strpos($header, 'application/json') !== false) ||
+                    (strpos($header, 'application/problem+json') !== false))
                 {
                     $result = json_decode($result, true);
                     break;
