@@ -34,14 +34,10 @@ class ClientAnnotation extends Annotation
         $curl = new \Curl\Curl();
 
         if (!is_null($options->username))
-        {
             $curl->setBasicAuthentication($options->username, $options->password);
-        }
 
         foreach ($options->headers as $key => $value)
-        {
             $curl->setHeader($key, $value);
-        }
 
         if (method_exists($curl, $method))
         {
@@ -50,7 +46,8 @@ class ClientAnnotation extends Annotation
                 $options->data = (array)$options->data;
                 $options->data = json_encode($options->data);
             }
-            else $options->data = (array)$options->data;
+            else
+                $options->data = (array)$options->data;
 
             $curl->$method($url, $options->data);
             $result = $curl->response;
@@ -66,6 +63,8 @@ class ClientAnnotation extends Annotation
                 }
             }
         }
+
+        $curl->close();
 
         return $result;
     }
