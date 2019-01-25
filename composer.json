@@ -2,7 +2,7 @@
     "name": "thomas-squall/php-easy-api",
     "description": "PHP API System for client and server development.",
     "type": "library",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "thomas-squall/php-magic-annotations": "^0.9.0",
+        "thomas-squall/php-magic-annotations": "^0.9.6",
         "curl/curl": "^2.2"
     },
     "require-dev": {
